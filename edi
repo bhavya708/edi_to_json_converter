@@ -1,0 +1,19 @@
+X12translator translator = new X12translator();
+
+//EDI to JSON
+x12translator.SchemaFormat = X12translatorSchemaFormats.schemaJSON;
+x12translator.InputFormat = X12translatorInputFormats.xifX12;
+x12translator.OutputFormat = X12translatorOutputFormats.xofJSON;
+x12translator.LoadSchema("C:\\schemas\\RSSBus_00401_810.json");
+x12translator.InputFile = myEDIFile;
+x12translator.Translate();
+string translatedJSON = x12translator.OutputData;
+
+x12translator.Reset();
+
+//JSON to EDI
+x12translator.InputFormat = X12translatorInputFormats.xifJSON;
+x12translator.OutputFormat = X12translatorOutputFormats.xofX12;
+x12translator.InputData = translatedJSON;
+x12translator.Translate();
+string translatedEDI = x12translator.OutputData;
